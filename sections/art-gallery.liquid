@@ -1,0 +1,251 @@
+{% comment %}
+  Art Gallery Grid Section
+  File: sections/art-gallery.liquid
+{% endcomment %}
+
+<section class="art-gallery-section">
+    <div class="gallery-container">
+      {% if section.settings.title != blank %}
+        <h2 class="gallery-title">{{ section.settings.title }}</h2>
+      {% endif %}
+      
+      <div class="gallery-grid">
+        {% assign products = collections.all.products | sort: 'created_at' | reverse %}
+        {% for product in products limit: 12 %}
+          <div class="gallery-item">
+            <a href="{{ product.url }}" class="gallery-link">
+              {% if product.featured_image %}
+                <div class="gallery-image-wrapper">
+                  <img
+                    src="{{ product.featured_image | image_url: width: 600 }}"
+                    srcset="{{ product.featured_image | image_url: width: 300 }} 300w,
+                            {{ product.featured_image | image_url: width: 600 }} 600w,
+                            {{ product.featured_image | image_url: width: 900 }} 900w"
+                    sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+                    alt="{{ product.featured_image.alt | escape }}"
+                    class="gallery-image"
+                    loading="lazy"
+                    width="{{ product.featured_image.width }}"
+                    height="{{ product.featured_image.height }}"
+                  >
+                </div>
+              {% else %}
+                <div class="gallery-image-wrapper">
+                   {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg gallery-image' }}
+                </div>
+              {% endif %}
+              
+              <div class="gallery-info">
+                <h3 class="gallery-product-title">{{ product.title }}</h3>
+                <p class="gallery-product-price">
+                  {{ product.price | money }}
+                  {% if product.compare_at_price > product.price %}
+                    <span class="gallery-product-compare-price">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+                </p>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+      
+      {% if section.settings.show_view_all and collection.products_count > product_limit and collection != blank %}
+        <div class="gallery-footer">
+          <a href="{{ collection.url }}" class="gallery-view-all btn btn--secondary">
+            {{ 'sections.featured_collection.view_all' | t }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+  
+  <style>
+    .art-gallery-section {
+      padding: 40px 0; /* Reduced padding from original */
+      background-color: var(--color-background, #ffffff);
+      /* border-top: 10px solid #ff4c00; /* Orange border like leahgardner.art */
+    }
+    
+    .gallery-container {
+      max-width: 100%; /* Full width for the grid */
+      margin: 0 auto;
+      padding: 0; /* No padding on container, grid handles spacing */
+    }
+    
+    .gallery-title {
+      font-size: 2rem;
+      font-weight: 300;
+      text-align: center;
+      margin-bottom: 2rem; /* Reduced margin */
+      color: var(--color-foreground, #2c2c2c);
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Min item width */
+      gap: 10px; /* Gap between items, matching leahgardner.art border */
+      /* No margin-bottom here, handled by section padding */
+      /* background-color: #ff4c00; /* Orange background for the gaps, creating border effect */
+      /* padding: 10px; /* Padding to make the background visible as borders */
+      border-top: 10px solid #ff4c00;
+      border-bottom: 10px solid #ff4c00;
+
+    }
+    
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      background-color: var(--color-background, #ffffff);
+      transition: opacity 0.3s ease;
+    }
+    .gallery-item:hover {
+        opacity: 0.8;
+    }
+    
+    .gallery-link {
+      display: block;
+      text-decoration: none;
+      color: var(--color-foreground, #2c2c2c);
+    }
+    
+    .gallery-image-wrapper {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1 / 1; /* Square images */
+      background-color: #f0f0f0; /* Placeholder bg */
+    }
+    
+    .gallery-image, .placeholder-svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    .gallery-item:hover .gallery-image {
+      /* transform: scale(1.05); /* Subtle zoom on hover */
+    }
+    
+    .gallery-info {
+      /* display: none; /* Hidden by default, shown on hover on leahgardner.art */
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* On leahgardner.art, info is shown on hover. This is a simpler version. */
+    /* .gallery-item:hover .gallery-info {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.9);
+      padding: 1rem;
+      text-align: center;
+    } */
+    
+    .gallery-product-title {
+      font-size: 1rem;
+      font-weight: 400; /* Lighter font */
+      margin-bottom: 0.25rem;
+      color: var(--color-foreground, #2c2c2c);
+      text-transform: uppercase; /* Uppercase titles */
+    }
+    
+    .gallery-product-price {
+      font-size: 0.9rem;
+      color: var(--color-foreground, #2c2c2c); /* Price color */
+      font-weight: 400;
+    }
+    
+    .gallery-product-compare-price {
+      text-decoration: line-through;
+      color: var(--color-muted, #999);
+      font-weight: 400;
+      margin-left: 0.5rem;
+    }
+    
+    .gallery-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-muted, #999);
+    }
+    
+    .gallery-footer {
+      text-align: center;
+      margin-top: 2rem; /* Reduced margin */
+    }
+    
+    .gallery-view-all {
+      /* Using .btn styles from critical.css */
+    }
+    
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+        /* padding: 10px; */
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Smaller items on mobile */
+        gap: 5px;
+        /* padding: 5px; */
+        border-top-width: 5px;
+        border-bottom-width: 5px;
+      }
+      .gallery-product-title {
+        font-size: 0.9rem;
+      }
+      .gallery-product-price {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Art Gallery",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section title",
+        "default": "Featured Works"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "range",
+        "id": "products_limit",
+        "label": "Number of products to show",
+        "min": 2,
+        "max": 24,
+        "step": 1,
+        "default": 8
+      },
+      {
+        "type": "checkbox",
+        "id": "show_view_all",
+        "label": "Show 'View all' button",
+        "default": true
+      }
+    ],
+    "presets": [
+      {
+        "name": "Art Gallery",
+        "settings": {
+          "title": "Featured Works",
+          "products_limit": 8,
+          "show_view_all": true
+        }
+      }
+    ]
+  }
+  {% endschema %}

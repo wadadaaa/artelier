@@ -1,56 +1,174 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+{% comment %}
+  Minimal Footer Section
+  File: sections/footer.liquid
+{% endcomment %}
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
-
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      {% if section.settings.show_social_links %}
+        <div class="footer-social">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'social_link' %}
+                <a href="{{ block.settings.link }}" 
+                   class="footer-social-link" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   aria-label="{{ block.settings.title | escape }}"
+                   {{ block.shopify_attributes }}>
+                  {{ block.settings.title }}
+                </a>
+            {% endcase %}
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+      <div class="footer-copyright">
+        <p>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | default: shop.name }}. {{ section.settings.rights_text }}</p>
+      </div>
+      
+      {% if section.settings.show_powered_by %}
+        <div class="footer-powered">
+          <p><a href="https://www.shopify.com" target="_blank" rel="noopener noreferrer">Powered by Shopify</a></p>
+        </div>
+      {% endif %}
+    </div>
   </div>
 </footer>
 
-{% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
+<style>
+  .site-footer {
+    margin-top: auto; /* Pushes footer to bottom if content is short */
+    padding: 2rem 0; /* Reduced padding */
+    background-color: var(--color-background, #ffffff);
+    border-top: 1px solid var(--color-border, #e5e7eb); /* Subtle top border */
+    font-size: 0.875rem; /* Base font size for footer */
   }
-  footer a {
+  
+  .footer-container {
+    max-width: var(--page-width, 1200px); /* Consistent with critical.css */
+    margin: 0 auto;
+    padding: 0 var(--page-margin, 20px); /* Consistent with critical.css */
+  }
+  
+  .footer-content {
+    text-align: center;
+    color: var(--color-muted, #6b7280); /* Muted text color */
+  }
+  
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem; /* Spacing for social links */
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .footer-social-link {
+    color: var(--color-foreground, #2c2c2c); /* Use foreground color for links */
     text-decoration: none;
-    color: var(--color-foreground);
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: opacity 0.3s ease;
+    text-transform: lowercase; /* Lowercase like leahgardner.art */
   }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
+  
+  .footer-social-link:hover {
+    opacity: 0.7;
   }
-{% endstylesheet %}
+  
+  .footer-copyright {
+    margin-bottom: 0.5rem; /* Reduced margin */
+  }
+  
+  .footer-copyright p,
+  .footer-powered p {
+    font-size: 0.8rem; /* Smaller text for copyright/powered by */
+    color: var(--color-muted, #6b7280);
+    margin: 0;
+    line-height: 1.5;
+  }
+  
+  .footer-powered a {
+    color: var(--color-muted, #6b7280);
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .footer-powered a:hover {
+    opacity: 0.7;
+  }
+  
+  @media (max-width: 768px) {
+    .site-footer {
+      padding: 1.5rem 0;
+    }
+    
+    .footer-social {
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+</style>
 
 {% schema %}
 {
-  "name": "t:general.footer",
+  "name": "Footer",
   "settings": [
     {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
+      "type": "checkbox",
+      "id": "show_social_links",
+      "label": "Show social links",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "info": "Leave blank to use shop name"
+    },
+    {
+      "type": "text",
+      "id": "rights_text",
+      "label": "Rights text",
+      "default": "All rights reserved"
     },
     {
       "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
-      "default": true
+      "id": "show_powered_by",
+      "label": "Show 'Powered by Shopify'",
+      "default": false /* Hidden on leahgardner.art */
+    }
+  ],
+  "blocks": [
+    {
+      "type": "social_link",
+      "name": "Social Link",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Link Text",
+          "default": "Instagram"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        { "type": "social_link", "settings": { "title": "instagram" }},
+        { "type": "social_link", "settings": { "title": "pinterest" }},
+        { "type": "social_link", "settings": { "title": "contact" }}
+      ]
     }
   ]
 }

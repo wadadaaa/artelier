@@ -1,20 +1,88 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
-      "settings": {}
+    "hero-categories": {
+      "type": "hero-with-categories",
+      "blocks": {
+        "mixed-media": {
+          "type": "category_link",
+          "settings": {
+            "title": "mixed media",
+            "link": "/collections/mixed-media"
+          }
+        },
+        "originals": {
+          "type": "category_link",
+          "settings": {
+            "title": "originals",
+            "link": "/collections/originals"
+          }
+        },
+        "exhibitions": {
+          "type": "category_link",
+          "settings": {
+            "title": "exhibitions",
+            "link": "/collections/exhibitions"
+          }
+        },
+        "wallpapers": {
+          "type": "category_link",
+          "settings": {
+            "title": "wallpapers",
+            "link": "/collections/wallpapers"
+          }
+        },
+        "merch": {
+          "type": "category_link",
+          "settings": {
+            "title": "merch",
+            "link": "/collections/merch"
+          }
+        },
+        "about": {
+          "type": "category_link",
+          "settings": {
+            "title": "about",
+            "link": "/pages/about"
+          }
+        },
+        "faq": {
+          "type": "category_link",
+          "settings": {
+            "title": "faq",
+            "link": "/pages/faq"
+          }
+        },
+        "archives": {
+          "type": "category_link",
+          "settings": {
+            "title": "archives",
+            "link": "/collections/archives"
+          }
+        }
+      },
+      "block_order": [
+        "originals",
+        "mixed-media",
+        "exhibitions",
+        "about",
+        "faq",
+        "archives"
+      ],
+      "settings": {
+        "hero_image": "shopify:\/\/shop_images\/your-hero-image.jpg"
+      }
+    },
+    "gallery": {
+      "type": "art-gallery",
+      "settings": {
+        "title": "",
+        "products_limit": 12,
+        "show_view_all": false
+      }
     }
   },
   "order": [
-    "main"
+    "hero-categories",
+    "gallery"
   ]
 }

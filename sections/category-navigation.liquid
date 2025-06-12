@@ -1,0 +1,175 @@
+{% comment %}
+  Category Navigation Section - Artelier Style
+  File: sections/category-navigation.liquid
+{% endcomment %}
+
+<section class="category-nav-section">
+    <div class="category-nav-container">
+      <nav class="category-nav" aria-label="Category navigation">
+        <ul class="category-list">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'category_link' %}
+                <li class="category-item" {{ block.shopify_attributes }}>
+                  <a href="{{ block.settings.link }}" class="category-link">
+                    {{ block.settings.title }}
+                  </a>
+                </li>
+            {% endcase %}
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </section>
+  
+  <style>
+    .category-nav-section {
+      padding: 120px 0 80px;
+      background-color: var(--color-background, #ffffff);
+    }
+    
+    .category-nav-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    .category-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .category-link {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--color-accent, #ff6b35);
+      text-decoration: none;
+      padding: 1rem 0;
+      transition: all 0.3s ease;
+      position: relative;
+      letter-spacing: 0.02em;
+    }
+    
+    .category-link::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background-color: var(--color-accent, #ff6b35);
+      transition: width 0.3s ease;
+    }
+    
+    .category-link:hover {
+      padding-left: 20px;
+      opacity: 0.8;
+    }
+    
+    .category-link:hover::before {
+      width: 100%;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .category-nav-section {
+        padding: 100px 0 60px;
+      }
+      
+      .category-link {
+        font-size: 2rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .category-link {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Category Navigation",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "category_link",
+        "name": "Category Link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "prints"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Category Navigation",
+        "blocks": [
+          {
+            "type": "category_link",
+            "settings": {
+              "title": "prints"
+            }
+          },
+          {
+            "type": "category_link",
+            "settings": {
+              "title": "originals"
+            }
+          },
+          {
+            "type": "category_link",
+            "settings": {
+              "title": "bird prints"
+            }
+          },
+          {
+            "type": "category_link",
+            "settings": {
+              "title": "wallpapers"
+            }
+          },
+          {
+            "type": "category_link",
+            "settings": {
+              "title": "merch"
+            }
+          },
+          {
+            "type": "category_link",
+            "settings": {
+              "title": "about"
+            }
+          },
+          {
+            "type": "category_link",
+            "settings": {
+              "title": "faq"
+            }
+          },
+          {
+            "type": "category_link",
+            "settings": {
+              "title": "archives"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}

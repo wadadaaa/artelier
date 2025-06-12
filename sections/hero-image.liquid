@@ -1,0 +1,231 @@
+{% comment %}
+  Minimal Hero Section for Art Theme
+  File: sections/hero-image.liquid
+{% endcomment %}
+
+<section class="hero-section {% if section.settings.hero_image %}has-image{% endif %}">
+    {% if section.settings.hero_image %}
+      <div class="hero-image-container">
+        <img 
+          src="{{ section.settings.hero_image | image_url: width: 1920 }}"
+          srcset="{{ section.settings.hero_image | image_url: width: 480 }} 480w,
+                  {{ section.settings.hero_image | image_url: width: 768 }} 768w,
+                  {{ section.settings.hero_image | image_url: width: 1200 }} 1200w,
+                  {{ section.settings.hero_image | image_url: width: 1920 }} 1920w"
+          sizes="100vw"
+          alt="{{ section.settings.hero_image.alt | escape }}"
+          class="hero-image"
+          loading="eager"
+        >
+      </div>
+    {% endif %}
+    
+    <div class="hero-content">
+      {% if section.settings.greeting %}
+        <p class="hero-greeting">{{ section.settings.greeting }}</p>
+      {% endif %}
+      
+      {% if section.settings.headline %}
+        <h1 class="hero-headline">{{ section.settings.headline }}</h1>
+      {% endif %}
+      
+      {% if section.settings.description %}
+        <div class="hero-description">
+          {{ section.settings.description | newline_to_br }}
+        </div>
+      {% endif %}
+      
+      {% if section.settings.subtitle %}
+        <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+  </section>
+  
+  <style>
+    .hero-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background-color: var(--color-background, #ffffff);
+      padding-top: 80px; /* Account for fixed header */
+    }
+    
+    .hero-section.has-image {
+      background: none;
+    }
+    
+    .hero-image-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    
+    .hero-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.95;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      padding: 3rem;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .hero-section.has-image .hero-content {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 4px;
+    }
+    
+    .hero-greeting {
+      font-size: 1rem;
+      color: var(--color-muted, #999);
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .hero-headline {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+      animation: fadeIn 1s ease-out 0.4s both;
+    }
+    
+    .hero-description {
+      font-size: 1.1rem;
+      color: var(--color-muted, #666);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeIn 1s ease-out 0.6s both;
+    }
+    
+    .hero-subtitle {
+      font-size: 0.95rem;
+      color: var(--color-muted, #999);
+      font-style: italic;
+      letter-spacing: 0.05em;
+      animation: fadeIn 1s ease-out 0.8s both;
+    }
+    
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .hero-section {
+        min-height: 80vh;
+      }
+      
+      .hero-content {
+        padding: 2rem;
+      }
+      
+      .hero-headline {
+        font-size: 2rem;
+      }
+      
+      .hero-description {
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-content {
+        padding: 1.5rem;
+      }
+      
+      .hero-headline {
+        font-size: 1.75rem;
+      }
+    }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Hero Image",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Hero Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_image",
+        "label": "Background Image",
+        "info": "Optional. Recommended size: 1920x1080px"
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "greeting",
+        "label": "Greeting",
+        "default": "Hey there!",
+        "info": "Optional greeting text above headline"
+      },
+      {
+        "type": "text",
+        "id": "headline",
+        "label": "Headline",
+        "default": "I'm [Your Name], an artist from [Your City]"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description",
+        "default": "I create something new every day, and you can check out these pieces right here. Thanks for stopping by, and I hope you find a piece you love!"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "new and original",
+        "info": "Optional subtitle below description"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Hero Image",
+        "settings": {
+          "greeting": "Hey there!",
+          "headline": "I'm [Your Name], an artist from [Your City]",
+          "description": "I create something new every day, and you can check out these pieces right here. Thanks for stopping by, and I hope you find a piece you love!",
+          "subtitle": "new and original"
+        }
+      }
+    ]
+  }
+  {% endschema %}

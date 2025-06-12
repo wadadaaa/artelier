@@ -1,0 +1,225 @@
+{% comment %}
+  Hero with Categories Section - Split Screen Layout
+  Matches leahgardner.art hero style
+  File: sections/hero-with-categories.liquid
+{% endcomment %}
+
+<section class="hero-categories-section">
+    <div class="split-container">
+      <!-- Left side - Categories -->
+      <div class="categories-side">
+        <nav class="category-nav-hero" aria-label="Category navigation">
+          <ul class="category-list-hero">
+            {% for block in section.blocks %}
+              <li class="category-item-hero" data-category-index="{{ forloop.index0 }}">
+                <a href="{{ block.settings.link }}" class="category-link-hero">
+                  {{ block.settings.title | downcase }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
+      <div class="vertical-divider-hero"></div>
+      <!-- Right side - Hero Image -->
+      <div class="hero-side-image">
+        {% for block in section.blocks %}
+          <img
+            src="{{ block.settings.image | image_url: width: 1200 }}"
+            alt="{{ block.settings.title }}"
+            class="hero-image-actual"
+            data-image-index="{{ forloop.index0 }}"
+            style="{% if forloop.first %}display:block{% else %}display:none{% endif %}"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.height }}"
+          >
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  
+  <style>
+    .hero-categories-section {
+      position: relative;
+      min-height: calc(100vh - 60px); /* Adjust if header height changes */
+      /* border-top: 10px solid #ff4c00; /* As per original snippet, leahgardner.art has a thinner top border on header */
+      /* border-bottom: 10px solid #ff4c00; /* As per original snippet, leahgardner.art has this on the gallery below */
+      padding-top: 60px; /* Space for fixed header */
+      box-sizing: border-box;
+    }
+    .split-container {
+      display: flex;
+      min-height: calc(100vh - 60px); /* Full viewport height minus header */
+      align-items: stretch; /* Make columns equal height */
+      position: relative;
+    }
+    .categories-side {
+      flex: 0 0 40%; /* Adjust ratio as needed */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* Vertically center links */
+      padding: 2rem 3rem; /* Ample padding */
+      background-color: var(--color-background, #ffffff);
+      position: relative;
+      z-index: 2;
+      box-sizing: border-box;
+    }
+    .vertical-divider-hero {
+      width: 10px; /* Thickness of the divider */
+      background: #ff4c00; /* Orange color from screenshot */
+      /* Removed fixed height and margin to allow it to stretch with content or be controlled by flex alignment */
+      align-self: stretch; /* Makes divider full height of the flex container */
+      z-index: 1;
+    }
+    .hero-side-image {
+      flex: 1 1 60%; /* Adjust ratio as needed */
+      position: relative;
+      overflow: hidden;
+      background-color: #f0f0f0; /* Fallback bg for image area */
+    }
+    .hero-image-actual {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Cover the area, might crop */
+      display: block;
+    }
+    .hero-image-placeholder { /* Style if no image */
+      width: 100%;
+      height: 100%;
+      background-color: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+    }
+    .category-list-hero {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem; /* Spacing between links */
+    }
+    .category-link-hero {
+      display: block;
+      font-size: clamp(2rem, 6vw, 3.75rem); /* Responsive font size */
+      font-weight: 600; /* Bold like screenshot */
+      color: #ff4c00; /* Orange color from screenshot */
+      text-decoration: none;
+      padding: 0.1em 0; /* Minimal vertical padding */
+      transition: all 0.2s ease;
+      text-align: left;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+    .category-link-hero:hover {
+      opacity: 0.7;
+      transform: translateX(5px); /* Slight move on hover */
+    }
+    
+    @media (max-width: 900px) {
+      .split-container {
+        flex-direction: column; /* Stack on smaller screens */
+      }
+      .categories-side {
+        flex: 0 0 auto; /* Reset flex basis */
+        width: 100%;
+        padding: 2rem 1.5rem;
+        border-right: none;
+        min-height: 50vh; /* Ensure it takes some space */
+        justify-content: center;
+      }
+      .vertical-divider-hero {
+        width: 100%;
+        height: 10px; /* Horizontal divider */
+        align-self: auto;
+      }
+      .hero-side-image {
+        flex: 0 0 auto; /* Reset flex basis */
+        width: 100%;
+        min-height: 50vh; /* Ensure it takes some space */
+        max-height: 50vh; /* Limit image height */
+      }
+      .category-link-hero {
+        font-size: clamp(1.8rem, 8vw, 2.5rem); /* Adjust for mobile */
+      }
+    }
+    @media (max-width: 600px) {
+      .categories-side {
+        padding: 1.5rem 1rem;
+      }
+      .category-link-hero {
+        font-size: clamp(1.5rem, 7vw, 2rem);
+      }
+    }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Hero with Categories",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "hero_image",
+        "label": "Hero Image",
+        "info": "Recommended size: 1200x1600px or similar aspect ratio. Will be cropped to fit."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "category_link",
+        "name": "Category Link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "prints"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Category image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Hero with Categories",
+        "blocks": [
+          { "type": "category_link", "settings": { "title": "prints" }},
+          { "type": "category_link", "settings": { "title": "originals" }},
+          { "type": "category_link", "settings": { "title": "bird prints" }},
+          { "type": "category_link", "settings": { "title": "wallpapers" }},
+          { "type": "category_link", "settings": { "title": "merch" }},
+          { "type": "category_link", "settings": { "title": "about" }},
+          { "type": "category_link", "settings": { "title": "faq" }},
+          { "type": "category_link", "settings": { "title": "archives" }}
+        ]
+      }
+    ]
+  }
+  {% endschema %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.category-item-hero');
+  const images = document.querySelectorAll('.hero-image-actual');
+  items.forEach((item, idx) => {
+    item.addEventListener('mouseenter', () => {
+      images.forEach(img => img.style.display = 'none');
+      const img = document.querySelector('.hero-image-actual[data-image-index=\"' + idx + '\"]');
+      if (img) img.style.display = 'block';
+    });
+    item.addEventListener('mouseleave', () => {
+      images.forEach((img, i) => img.style.display = i === 0 ? 'block' : 'none');
+    });
+  });
+});
+</script>
