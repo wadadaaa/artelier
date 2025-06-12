@@ -27,15 +27,15 @@
               {% endfor %}
             {% when 'price_range' %}
               <div class="filter-range-slider">
-                <label>
-                  {{ 'From' }}
+                <label class="range-control">
+                  <span>{{ 'From' }}</span>
                   <input type="range" id="price-min" name="{{ filter.min_value.param_name }}"
                          value="{{ filter.min_value.value | money_without_currency }}"
                          min="0" max="{{ filter.range_max | money_without_currency }}">
                   <span class="range-value" data-target="price-min"></span>
                 </label>
-                <label>
-                  {{ 'To' }}
+                <label class="range-control">
+                  <span>{{ 'To' }}</span>
                   <input type="range" id="price-max" name="{{ filter.max_value.param_name }}"
                          value="{{ filter.max_value.value | money_without_currency }}"
                          min="0" max="{{ filter.range_max | money_without_currency }}">
@@ -52,34 +52,62 @@
 
 {% stylesheet %}
 .collection-filters {
-  margin-bottom: 1.5rem;
-  padding: 0.5rem;
-  border: 1px solid #1e1e1e;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--color-card-bg, #f9f9f9);
+  border: 1px solid var(--color-border, #ddd);
+  border-radius: var(--border-radius-lg, 8px);
+  box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05));
 }
 .filter-group {
-  margin-bottom: 0.5rem;
+  flex: 1 1 220px;
+  background: #fff;
+  border: 1px solid var(--color-border, #ddd);
+  border-radius: var(--border-radius, 4px);
+  padding: 0.5rem 1rem;
 }
 .filter-summary {
   font-weight: 600;
   cursor: pointer;
+  margin-bottom: 0.5rem;
 }
 .filter-group-display {
-  margin-left: 1rem;
-  margin-top: 0.3rem;
+  margin-left: 0;
 }
 .filter-value {
   display: block;
   margin-bottom: 0.25rem;
+  font-size: 0.9rem;
 }
-.filter-range-slider label {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-.filter-range-slider input[type=range] {
+.filter-range-slider {
   width: 100%;
 }
+.range-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.filter-range-slider input[type=range] {
+  flex: 1;
+  accent-color: var(--color-accent, #1e1e1e);
+}
+.range-value {
+  font-size: 0.85rem;
+  min-width: 2.5rem;
+  text-align: center;
+}
 .filter-apply {
-  margin-top: 0.5rem;
+  align-self: flex-end;
+  padding: 0.5rem 1rem;
+  background: var(--color-accent, #1e1e1e);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius, 4px);
+  cursor: pointer;
 }
 {% endstylesheet %}
 
