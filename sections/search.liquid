@@ -6,7 +6,7 @@
 {% endcomment %}
 
 <div class="search-page-container">
-  <h1 class="search-page-title">{{ 'search.title' | t }}</h1>
+  <h3 class="search-page-title">{{ 'search.title' | t }}</h3>
 
   <form action="{{ routes.search_url }}" method="get" role="search" class="search-form-page">
     <input
@@ -62,8 +62,6 @@
   }
 
   .search-page-title {
-    font-size: clamp(2.5rem, 5vw, 3.75rem);
-    font-weight: 600;
     color: var(--color-accent);
     margin-bottom: 2rem;
     text-align: center;
