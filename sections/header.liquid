@@ -6,8 +6,8 @@
 <header class="site-header" role="banner">
   <nav class="header-nav" aria-label="Main navigation">
     <div class="header-container">
-      <!-- Logo/Site Title -->
-      <div class="header-logo">
+      <!-- Logo/Site Title Centered -->
+      <div class="header-logo-center">
         {% if section.settings.logo %}
           <a href="{{ routes.root_url }}" class="header-logo-link">
             <img
@@ -27,11 +27,12 @@
           </a>
         {% endif %}
       </div>
-
-      <!-- Header Actions (Cart icon only for minimal look) -->
       <div class="header-actions">
+        <a href="/search" class="header-action-link header-search" aria-label="Search">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e1e1e" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </a>
         <a href="{{ routes.cart_url }}" class="header-action-link header-cart" id="cart-icon-bubble">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e1e1e" stroke-width="1.5">
             <circle cx="8" cy="21" r="1"/>
             <circle cx="19" cy="21" r="1"/>
             <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L23 6H6"/>
@@ -48,12 +49,13 @@
 
 <style>
   .site-header {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
-    background-color: transparent;
+    z-index: 30;
+    width: 100%;
+    background-color: white;
     padding: 0.75rem 2rem;
     transition: all 0.3s ease;
   }
@@ -67,20 +69,27 @@
     max-width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    position: relative;
   }
   
-  /* Logo/Title */
-  .header-logo {
+  .header-logo-center {
     flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
   }
   
   .header-title {
-    font-size: 1.25rem; /* Adjust as needed, leahgardner.art has a larger, stylized title */
+    font-size: 3.25rem;
     font-weight: 400;
-    color: var(--color-foreground, #2c2c2c); /* leahgardner.art uses a pinkish color */
+    color: var(--color-foreground, #2c2c2c);
     text-decoration: none;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
     transition: opacity 0.3s ease;
   }
   
@@ -90,7 +99,7 @@
   
   .header-logo-image {
     height: auto;
-    max-height: 30px; /* Adjust as needed */
+    max-height: 30px;
     width: auto;
   }
   
@@ -98,7 +107,10 @@
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 1.5rem; /* Adjust spacing for search and cart if search is added */
+    gap: 1.5rem;
+    flex: 1 1 0;
+    justify-content: flex-end;
+    z-index: 2;
   }
   
   .header-action-link {
@@ -151,6 +163,81 @@
       font-size: 1.25rem; /* Ensure readability */
     }
   }
+
+  @media (max-width: 900px) {
+    .header-logo-center { margin-left: 0; margin-right: 0; }
+    .header-actions { gap: 1rem; }
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #fff;
+    z-index: 9999;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    box-shadow: 0 0 0 100vw rgba(0,0,0,0.05);
+    padding: 2rem 0 0 0;
+    border-right: 2px solid #ffb6d5;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu-close {
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    color: #ffb6d5;
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .mobile-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 0;
+    width: 100%;
+  }
+  .mobile-nav-item {
+    border-bottom: 2px solid #ffb6d5;
+    width: 100%;
+  }
+  .mobile-nav-link {
+    display: block;
+    font-size: 2.5rem;
+    color: #ff4c00;
+    text-decoration: none;
+    padding: 1.2rem 2rem;
+    text-align: left;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    transition: background 0.2s, color 0.2s;
+  }
+  .mobile-nav-link:hover {
+    background: #ffe6f2;
+    color: #ff4c00;
+  }
+  .header-main-nav {
+    display: none;
+  }
+  .header-nav-list {
+    display: none;
+  }
+  .header-nav-item {
+    display: none;
+  }
+  .header-nav-link {
+    display: none;
+  }
+  .header-nav-link:hover {
+    color: inherit;
+  }
+  .site-header, .header-container, .header-logo-center, .header-actions, .header-action-link, .cart-count-bubble, .mobile-menu, .mobile-nav-item, .mobile-nav-link {
+    border: none !important;
+    border-width: 0 !important;
+    border-style: none !important;
+  }
 </style>
 
 <script>
@@ -165,6 +252,24 @@
         header.classList.remove('scrolled');
       }
     });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var burgerBtn = document.querySelector('.burger-menu-btn');
+    var mobileMenu = document.getElementById('mobile-menu');
+    var closeBtn = document.querySelector('.mobile-menu-close');
+    if (burgerBtn && mobileMenu && closeBtn) {
+      burgerBtn.addEventListener('click', function() {
+        mobileMenu.classList.add('open');
+        burgerBtn.setAttribute('aria-expanded', 'true');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+      });
+      closeBtn.addEventListener('click', function() {
+        mobileMenu.classList.remove('open');
+        burgerBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      });
+    }
   });
 </script>
 

@@ -18,7 +18,11 @@
     "title": "Cart",
     "update": "Update",
     "remove": "Remove",
-    "cart_count": "{{ count }} items in cart"
+    "cart_count": "{{ count }} items in cart",
+    "subtotal": "Subtotal",
+    "shipping_policy_html": "Shipping & taxes calculated at checkout.",
+    "empty_text": "Your cart is currently empty.",
+    "continue_shopping": "Continue shopping"
   },
   "customers": {
     "login": {
@@ -49,5 +53,13 @@
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
     "results_for_html": "{{ count }} results found for {{ terms }}"
+  },
+  "sections": {
+    "header": {
+      "cart_count": "{{ count }} items in cart"
+    },
+    "featured_collection": {
+      "view_all": "View all"
+    }
   }
 }

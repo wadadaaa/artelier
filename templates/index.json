@@ -1,62 +1,47 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero-categories": {
       "type": "hero-with-categories",
       "blocks": {
-        "mixed-media": {
-          "type": "category_link",
-          "settings": {
-            "title": "mixed media",
-            "link": "/collections/mixed-media"
-          }
-        },
         "originals": {
           "type": "category_link",
           "settings": {
             "title": "originals",
-            "link": "/collections/originals"
+            "link": "/collections/originals",
+            "image": "shopify://shop_images/Sky_Poetry_Painting.jpg"
+          }
+        },
+        "mixed-media": {
+          "type": "category_link",
+          "settings": {
+            "title": "mixed media",
+            "link": "/collections/mixed-media",
+            "image": "shopify://shop_images/SavannahArtwork.jpg"
           }
         },
         "exhibitions": {
           "type": "category_link",
           "settings": {
             "title": "exhibitions",
-            "link": "/collections/exhibitions"
-          }
-        },
-        "wallpapers": {
-          "type": "category_link",
-          "settings": {
-            "title": "wallpapers",
-            "link": "/collections/wallpapers"
-          }
-        },
-        "merch": {
-          "type": "category_link",
-          "settings": {
-            "title": "merch",
-            "link": "/collections/merch"
-          }
-        },
-        "about": {
-          "type": "category_link",
-          "settings": {
-            "title": "about",
-            "link": "/pages/about"
+            "link": "/collections/exhibitions",
+            "image": "shopify://shop_images/THE_LAST_SUPPER_OF_THE_JOKER-1.jpg"
           }
         },
         "faq": {
           "type": "category_link",
           "settings": {
             "title": "faq",
-            "link": "/pages/faq"
-          }
-        },
-        "archives": {
-          "type": "category_link",
-          "settings": {
-            "title": "archives",
-            "link": "/collections/archives"
+            "link": "/pages/faq",
+            "image": "shopify://shop_images/Sun_on_the_Skillet_Painting.jpg"
           }
         }
       },
@@ -64,25 +49,32 @@
         "originals",
         "mixed-media",
         "exhibitions",
-        "about",
-        "faq",
-        "archives"
+        "faq"
       ],
-      "settings": {
-        "hero_image": "shopify:\/\/shop_images\/your-hero-image.jpg"
-      }
+      "settings": {}
     },
     "gallery": {
       "type": "art-gallery",
       "settings": {
         "title": "",
+        "collection": "",
         "products_limit": 12,
         "show_view_all": false
+      }
+    },
+    "about-artist": {
+      "type": "about-artist",
+      "settings": {
+        "title": "Hey there!",
+        "text": "I'm Maria, an Israeli artist originally from Ukraine. For over 20 years, I've been capturing the beauty of nature, people, and life through oil, acrylic, watercolor, and digital painting. My work flows freely between impressionism and realism, always seeking to embellish and celebrate what surrounds us. You can find my paintings in galleries across Israel and private collections worldwide. Thanks for visiting, and I hope you discover a piece that speaks to you!",
+        "link_label": "Discover Your Favorite →",
+        "link_url": "/collections/all"
       }
     }
   },
   "order": [
     "hero-categories",
-    "gallery"
+    "gallery",
+    "about-artist"
   ]
 }

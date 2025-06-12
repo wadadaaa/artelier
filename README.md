@@ -2,10 +2,10 @@
   <br>
     <img src="./assets/shoppy-x-ray.svg" alt="logo" width="200">
   <br>
-  Shopify Skeleton Theme
+  Artelier Shopify Theme
 </h1>
 
-A minimal, carefully structured Shopify theme designed to help you quickly get started. Designed with modularity, maintainability, and Shopify's best practices in mind.
+A minimalist art-focused Shopify theme inspired by [leahgardner.art](https://leahgardner.art/). It builds on Shopify's skeleton theme and includes a split-screen hero with category links, an art gallery grid, and customizable brand fonts.
 
 <p align="center">
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
@@ -148,6 +148,10 @@ For CSS and JavaScript, we recommend using the [`{% stylesheet %}`](https://shop
 ### `critical.css`
 
 The Skeleton Theme explicitly separates essential CSS necessary for every page into a dedicated `critical.css` file.
+
+## Customizations
+
+This theme ships with an art gallery section and a split hero inspired by [leahgardner.art](https://leahgardner.art/). The primary and secondary fonts can be selected in the theme settings under **Typography**. Headings use the secondary font, while body text uses the primary font.
 
 ## Contributing
 

@@ -5,39 +5,233 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<h1>{{ collection.title }}</h1>
+<div class="collection-title-marquee-wrapper"> 
+  <div class="collection-title-marquee"> {% for i in (1..8) %} 
+    <span class="marquee-item">{{ collection.title }}</span> 
+    <span class="separator">•</span> {% endfor %} 
+  </div> 
+</div>
 
-<div class="collection-products">
+
+<div class="collection-products-art">
   {% paginate collection.products by 20 %}
     {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
-        </div>
+      <div class="collection-product-art {% unless product.available %}sold-out-art{% endunless %}">
+        <a href="{{ product.url }}" class="collection-product-link-art">
+          {% if product.featured_image %}
+            <div class="gallery-item">
+              <div class="gallery-image-wrapper">
+                <img src="{{ product.featured_image | image_url: width: 600 }}"
+                     alt="{{ product.featured_image.alt | escape }}"
+                     class="collection-product-image-art"
+                     width="{{ product.featured_image.width }}"
+                     height="{{ product.featured_image.height }}">
+              </div>
+            </div>
+          {% endif %}
+          <div class="collection-product-content-art">
+            <div class="collection-product-title-art {% unless product.available %}sold-out-title-art{% endunless %}">
+              {{ product.title }}
+            </div>
+            <div class="collection-product-price-art">
+              {% if product.compare_at_price > product.price %}
+                <span class="compare-price-art">{{ product.compare_at_price | money }}</span>
+                <span class="sale-price-art">{{ product.price | money }}</span>
+              {% else %}
+                <span class="sale-price-art">{{ product.price | money }}</span>
+              {% endif %}
+            </div>
+            {% unless product.available %}
+              <div class="sold-out-label-art">Sold out</div>
+            {% endunless %}
+          </div>
+        </a>
       </div>
     {% endfor %}
-
     {{ paginate | default_pagination }}
   {% endpaginate %}
 </div>
 
-{% stylesheet %}
-  .collection-products {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+<style>
+  .collection-title-marquee-wrapper {
+    width: 100%;
+    background: transparent;
+    border-bottom: none;
+    margin: 2rem 0 1.5rem 0;
   }
-{% endstylesheet %}
+  
+  .collection-title-marquee {
+    display: flex; /* Changed from inline-block */
+    white-space: nowrap;
+    animation: marquee-scroll 18s linear infinite;
+    font-size: 8.2rem;
+    font-weight: 600;
+    color: #1e1e1e;
+    line-height: 1.1;
+  }
+  
+  .collection-title-marquee span {
+    display: inline-block;
+    padding-right: 3rem;
+    flex-shrink: 0; /* Prevents shrinking */
+  }
+  
+  @keyframes marquee-scroll {
+    0% { 
+      transform: translateX(100vw); 
+    }
+    100% { 
+      transform: translateX(-100%); 
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .collection-title-marquee {
+      font-size: 1.3rem;
+    }
+  }
+.collection-products-art {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+.collection-product-art {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  min-height: 320px;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+
+.collection-product-link-art {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #1e1e1e;
+  width: 100%;
+  height: 100%;
+  padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+}
+.collection-product-image-art {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  margin-bottom: 1.2rem;
+  border: none;
+  background: #f8f8f8;
+}
+.collection-product-content-art {
+  text-align: center;
+  width: 100%;
+}
+.collection-product-title-art {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  color: #1e1e1e;
+  line-height: 1.1;
+}
+.sold-out-title-art {
+  text-decoration: line-through;
+  color: #b0b0b0;
+}
+.collection-product-price-art {
+  font-size: 1.1rem;
+  color: #1e1e1e;
+  margin-bottom: 0.3rem;
+}
+.compare-price-art {
+  text-decoration: line-through;
+  color: #b0b0b0;
+  font-size: 1.1rem;
+  margin-right: 0.3em;
+}
+.sale-price-art {
+  color: #1e1e1e;
+  font-size: 1.1rem;
+}
+.sold-out-label-art {
+  color: #b0b0b0;
+  font-size: 1rem;
+  margin-top: 0.2em;
+  text-decoration: line-through;
+}
+.sold-out-art {
+  opacity: 0.7;
+}
+@media (max-width: 1200px) {
+  .collection-products-art {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .collection-product-art:nth-child(4n) {
+    border-right: none;
+  }
+  .collection-product-art:nth-child(3n) {
+    border-right: 3px solid #1e1e1e;
+  }
+  .collection-product-art:nth-last-child(-n+3) {
+    border-bottom: 3px solid #1e1e1e;
+  }
+}
+@media (max-width: 900px) {
+  .collection-products-art {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .collection-product-art:nth-child(3n),
+  .collection-product-art:nth-child(4n) {
+    border-right: none;
+  }
+  .collection-product-art:nth-child(2n) {
+    border-right: 3px solid #1e1e1e;
+  }
+  .collection-product-art:nth-last-child(-n+2) {
+    border-bottom: 3px solid #1e1e1e;
+  }
+}
+@media (max-width: 600px) {
+  .collection-products-art {
+    grid-template-columns: 1fr;
+  }
+  .collection-product-art {
+    border-right: none !important;
+    border-bottom: 3px solid #1e1e1e;
+  }
+  .collection-product-art:last-child {
+    border-bottom: 3px solid #1e1e1e;
+  }
+}
+body, h1, h2, h3, h4, h5, h6 {
+  font-family: var(--main-font-stack);
+}
+
+.about-artist-section, .hero-categories-section, .gallery-title {
+  font-family: var(--font-primary--family, 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif);
+}
+
+:root {
+  --main-font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.gallery-image-wrapper {
+  overflow: hidden;
+  /* Можно добавить фиксированную высоту/ширину, если нужно */
+}
+
+.gallery-image {
+  transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+
+.gallery-item:hover .gallery-image {
+  transform: scale(1.08);
+}
+</style>
 
 {% schema %}
 {

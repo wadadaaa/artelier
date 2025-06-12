@@ -7,8 +7,14 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "current": {
+    "type_primary_font": "work_sans_n4",
+    "type_secondary_font": "playfair_display_n4",
+    "order": [
+      "hero-categories",
+      "gallery"
+    ],
     "sections": {
       "hero-categories": {
         "type": "hero-with-categories",
@@ -61,13 +67,6 @@
               "title": "faq",
               "link": "/pages/faq"
             }
-          },
-          "archives": {
-            "type": "category_link",
-            "settings": {
-              "title": "archives",
-              "link": "/collections/archives"
-            }
           }
         },
         "block_order": [
@@ -75,11 +74,10 @@
           "mixed-media",
           "exhibitions",
           "about",
-          "faq",
-          "archives"
+          "faq"
         ],
         "settings": {
-          "hero_image": "shopify:\/\/shop_images\/your-hero-image.jpg"
+          "hero_image": "shopify://shop_images/your-hero-image.jpg"
         }
       },
       "gallery": {
@@ -90,10 +88,6 @@
           "show_view_all": false
         }
       }
-    },
-    "order": [
-      "hero-categories",
-      "gallery"
-    ]
+    }
   }
 }

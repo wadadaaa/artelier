@@ -1,0 +1,204 @@
+{% comment %}
+  Info Bar Section — Exhibit Style
+  File: sections/info-bar.liquid
+{% endcomment %}
+
+<section class="info-bar">
+  <div class="info-bar-col info-bar-left">
+    {% if section.settings.logo %}
+      <a href="{{ routes.root_url }}" class="info-bar-logo-link">
+        <img
+          src="{{ section.settings.logo | image_url: width: 200 }}"
+          srcset="{{ section.settings.logo | image_url: width: 100 }} 100w,
+                  {{ section.settings.logo | image_url: width: 200 }} 200w"
+          sizes="200px"
+          alt="{{ shop.name | escape }}"
+          class="info-bar-logo-image"
+          width="100"
+          height="auto"
+        >
+      </a>
+    {% else %}
+      <a href="{{ routes.root_url }}" class="info-bar-title">
+        {{ section.settings.site_title | default: shop.name | downcase }}
+      </a>
+    {% endif %}
+  </div>
+  <div class="info-bar-col info-bar-center">
+    {{ section.settings.address_line1 | default: 'MK ART.' }}<br>
+    {{ section.settings.address_line2 | default: 'Abarbanel 32,' }}<br>
+    {{ section.settings.address_line3 | default: 'Tel Aviv, Israel' }}<br>
+    {{ section.settings.hours | default: 'Open Mon - Fri 10am - 6pm' }}
+ </div>
+  <div class="info-bar-col info-bar-right">
+    <div class="info-bar-actions">
+      <a href="/search" class="info-bar-action-link info-bar-search" aria-label="Search">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e1e1e" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </a>
+      <a href="{{ routes.cart_url }}" class="info-bar-action-link info-bar-cart" id="cart-icon-bubble">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e1e1e" stroke-width="1.5">
+          <circle cx="8" cy="21" r="1"/>
+          <circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L23 6H6"/>
+        </svg>
+        <span class="cart-count-bubble {% if cart == empty %}hidden{% endif %}">
+          <span aria-hidden="true">{{ cart.item_count }}</span>
+          <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+.info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align items to center vertically */
+  width: 100%;
+  padding: 1.5rem 2rem;
+  font-family: var(--main-font-stack, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif); /* Use defined font stack */
+  font-size: 1.1rem; /* Smaller base font size for overall text */
+  background: #fff;
+  color: #111;
+  box-sizing: border-box;
+  gap: 2rem;
+}
+.info-bar-col {
+  flex: 1 1 0; /* Flex grow, flex shrink, flex basis */
+  min-width: 0; /* Prevent content overflow */
+  display: flex; /* Enable flex for content alignment */
+  align-items: center; /* Vertically center content within columns */
+}
+.info-bar-left {
+  text-align: left;
+  justify-content: flex-start;
+}
+.info-bar-center {
+  text-align: center;
+  white-space: pre-line;
+  justify-content: center;
+  flex-direction: column; /* Stack address lines */
+  line-height: 0.6;
+}
+.info-bar-right {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.info-bar-title {
+  font-size: 2rem; /* Larger font size for main title */
+  font-weight: 400;
+  color: #1e1e1e;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: opacity 0.3s ease;
+}
+.info-bar-logo-image {
+  height: auto;
+  max-height: 30px;
+  width: auto;
+}
+
+.info-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.info-bar-action-link {
+  color: #1e1e1e; /* Darker color for icons */
+  text-decoration: none;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.info-bar-action-link:hover {
+  opacity: 0.7;
+}
+.cart-count-bubble {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--color-accent, #ff6b35);
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.cart-count-bubble.hidden {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .info-bar {
+    flex-direction: column;
+    font-size: 1.2rem;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  .info-bar-col {
+    text-align: center !important;
+    justify-content: center !important;
+    width: 100%;
+  }
+  .info-bar-actions {
+    justify-content: center;
+    width: 100%;
+  }
+  .info-bar-title {
+    font-size: 1.5rem;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Info Bar",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "site_title",
+      "label": "Site title",
+      "info": "Used if no logo is uploaded. Example: maria kireev",
+      "default": "maria kireev"
+    },
+    {
+      "type": "text",
+      "id": "address_line1",
+      "label": "Address Line 1",
+      "default": "MK ART."
+    },
+    {
+      "type": "text",
+      "id": "address_line2",
+      "label": "Address Line 2",
+      "default": "Abarbanel 32,"
+    },
+    {
+      "type": "text",
+      "id": "address_line3",
+      "label": "Address Line 3",
+      "default": "Tel Aviv, Israel"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "Hours",
+      "default": "Open Mon - Fri 10am - 6pm"
+    }
+  ]
+}
+{% endschema %}
