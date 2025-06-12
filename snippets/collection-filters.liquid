@@ -28,18 +28,18 @@
                 {% endfor %}
               {% when 'price_range' %}
                 <div class="filter-range-slider">
-                  <label class="range-label">From $
-                    <span id="price-min-display" class="range-value"></span>
-                  </label>
-                  <input type="range" id="price-min" name="{{ filter.min_value.param_name }}"
+                  <div class="slider-track"></div>
+                  <div id="price-range-highlight" class="slider-range"></div>
+                  <input class="range-input" type="range" id="price-min" name="{{ filter.min_value.param_name }}"
                          value="{{ filter.min_value.value | money_without_currency }}"
                          min="0" max="{{ filter.range_max | money_without_currency }}">
-                  <input type="range" id="price-max" name="{{ filter.max_value.param_name }}"
+                  <input class="range-input" type="range" id="price-max" name="{{ filter.max_value.param_name }}"
                          value="{{ filter.max_value.value | money_without_currency }}"
                          min="0" max="{{ filter.range_max | money_without_currency }}">
-                  <label class="range-label">To $
-                    <span id="price-max-display" class="range-value"></span>
-                  </label>
+                  <div class="range-values">
+                    $<span id="price-min-display" class="range-value"></span>
+                    - $<span id="price-max-display" class="range-value"></span>
+                  </div>
                 </div>
             {% endcase %}
           </div>
@@ -87,38 +87,52 @@
   accent-color: var(--color-accent, #1e1e1e);
 }
 .filter-range-slider {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.filter-range-slider input[type=range] {
-  -webkit-appearance: none;
+  position: relative;
   width: 100%;
+  padding: 0.5rem 0 1.5rem;
+}
+.slider-track,
+.slider-range {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0.75rem;
   height: 4px;
-  background: #ddd;
   border-radius: 2px;
 }
-.filter-range-slider input[type=range]::-webkit-slider-thumb {
+.slider-track { background: #ddd; }
+.slider-range { background: var(--color-accent, #1e1e1e); }
+.range-input {
   -webkit-appearance: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 4px;
+  background: none;
+  pointer-events: none;
+}
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background: var(--color-accent, #1e1e1e);
   cursor: pointer;
 }
-.filter-range-slider input[type=range]::-moz-range-thumb {
+.range-input::-moz-range-thumb {
+  pointer-events: auto;
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background: var(--color-accent, #1e1e1e);
   cursor: pointer;
 }
-.range-label {
+.range-values {
+  margin-top: 1rem;
+  text-align: center;
   font-size: 0.85rem;
-  white-space: nowrap;
-}
-.range-value {
-  font-weight: 500;
 }
 .filter-apply {
   align-self: flex-end;
@@ -137,23 +151,35 @@ document.addEventListener('DOMContentLoaded', function () {
   var maxSlider = document.getElementById('price-max');
   var minDisplay = document.getElementById('price-min-display');
   var maxDisplay = document.getElementById('price-max-display');
+  var highlight = document.getElementById('price-range-highlight');
 
   function update() {
-    if (minDisplay) minDisplay.textContent = minSlider.value;
-    if (maxDisplay) maxDisplay.textContent = maxSlider.value;
+    var minVal = parseInt(minSlider.value);
+    var maxVal = parseInt(maxSlider.value);
+    var rangeMax = parseInt(minSlider.max);
+
+    if (minDisplay) minDisplay.textContent = minVal;
+    if (maxDisplay) maxDisplay.textContent = maxVal;
+
+    if (highlight) {
+      var minPercent = (minVal / rangeMax) * 100;
+      var maxPercent = (maxVal / rangeMax) * 100;
+      highlight.style.left = minPercent + '%';
+      highlight.style.width = (maxPercent - minPercent) + '%';
+    }
   }
 
   if (minSlider && maxSlider) {
     minSlider.addEventListener('input', function () {
       if (parseInt(minSlider.value) > parseInt(maxSlider.value)) {
-        maxSlider.value = minSlider.value;
+        minSlider.value = maxSlider.value;
       }
       update();
     });
 
     maxSlider.addEventListener('input', function () {
       if (parseInt(maxSlider.value) < parseInt(minSlider.value)) {
-        minSlider.value = maxSlider.value;
+        maxSlider.value = minSlider.value;
       }
       update();
     });
