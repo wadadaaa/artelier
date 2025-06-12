@@ -11,7 +11,7 @@
     <div class="product-image-col-leah">
       {% if product.images.size > 0 %}
         {% for image in product.images %}
-          <img src="{{ image | image_url: width: 900 }}" alt="{{ product.title | escape }}" class="product-main-image-leah" width="{{ image.width }}" height="{{ image.height }}">
+          <img src="{{ image | image_url: width: 900 }}" alt="{{ product.title | escape }}" class="product-main-image-leah zoom-hover" width="{{ image.width }}" height="{{ image.height }}">
         {% endfor %}
       {% else %}
         <div class="product-image-placeholder-leah"></div>

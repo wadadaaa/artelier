@@ -16,7 +16,7 @@
             <div class="cart-item-image">
               {% if item.image %}
                 <a href="{{ item.url | within: collections.all }}">
-                  <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.image.alt | escape }}" width="{{ item.image.width }}" height="{{ item.image.height }}">
+                  <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.image.alt | escape }}" class="zoom-hover" width="{{ item.image.width }}" height="{{ item.image.height }}">
                 </a>
               {% else %}
                 <div class="cart-item-placeholder"></div>

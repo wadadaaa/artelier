@@ -26,7 +26,7 @@
           <img
             src="{{ block.settings.image | image_url: width: 1200 }}"
             alt="{{ block.settings.title }}"
-            class="hero-image-actual"
+            class="hero-image-actual zoom-hover"
             data-image-index="{{ forloop.index0 }}"
             style="{% if forloop.first %}display:block{% else %}display:none{% endif %}"
             width="{{ block.settings.image.width }}"

@@ -255,9 +255,17 @@ h3, .h3 {
 
 .visually-hidden {
   position: absolute !important;
-  height: 1px; 
+  height: 1px;
   width: 1px;
   overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px);
   white-space: nowrap; /* For SRO text */
+}
+
+/* Zoom effect on image hover */
+img.zoom-hover {
+  transition: transform 0.3s ease;
+}
+img.zoom-hover:hover {
+  transform: scale(1.05);
 }
