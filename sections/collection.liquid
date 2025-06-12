@@ -15,6 +15,7 @@
 
 <div class="collection-products-art">
   {% paginate collection.products by 20 %}
+    {% render 'collection-filters', results: collection %}
     {% for product in collection.products %}
       <div class="collection-product-art {% unless product.available %}sold-out-art{% endunless %}">
         <a href="{{ product.url }}" class="collection-product-link-art">

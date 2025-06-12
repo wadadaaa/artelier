@@ -1,0 +1,74 @@
+{% comment %}
+  Simple collection filters snippet.
+  Usage: {% render 'collection-filters', results: collection %}
+{% endcomment %}
+
+{% liquid
+  assign results = results | default: collection
+%}
+
+{% if results.filters.size > 0 %}
+  <form id="FiltersForm" class="collection-filters">
+    {% for filter in results.filters %}
+      <details class="filter-group" {% if filter.active_values %}open{% endif %}>
+        <summary class="filter-summary">{{ filter.label }}</summary>
+        <div class="filter-group-display">
+          {% case filter.type %}
+            {% when 'list' %}
+              {% for value in filter.values %}
+                <label class="filter-value">
+                  <input type="checkbox"
+                         name="{{ value.param_name }}"
+                         value="{{ value.value }}"
+                         {% if value.active %}checked{% endif %}
+                         {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                  <span>{{ value.label }} ({{ value.count }})</span>
+                </label>
+              {% endfor %}
+            {% when 'price_range' %}
+              <div class="filter-range">
+                <label>
+                  {{ 'From' }}
+                  <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency }}" min="0">
+                </label>
+                <label>
+                  {{ 'To' }}
+                  <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency }}" min="0">
+                </label>
+              </div>
+          {% endcase %}
+        </div>
+      </details>
+    {% endfor %}
+    <button type="submit" class="filter-apply">{{ 'Apply' }}</button>
+  </form>
+{% endif %}
+
+{% stylesheet %}
+.collection-filters {
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  border: 1px solid #1e1e1e;
+}
+.filter-group {
+  margin-bottom: 0.5rem;
+}
+.filter-summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+.filter-group-display {
+  margin-left: 1rem;
+  margin-top: 0.3rem;
+}
+.filter-value {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.filter-range label {
+  display: block;
+}
+.filter-apply {
+  margin-top: 0.5rem;
+}
+{% endstylesheet %}
