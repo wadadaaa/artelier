@@ -94,6 +94,8 @@
     "order": [
       "hero-categories",
       "gallery"
-    ]
+    ],
+    "type_primary_font": "work_sans_n4",
+    "type_secondary_font": "playfair_display_n4"
   }
 }
