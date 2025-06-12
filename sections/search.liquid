@@ -35,7 +35,7 @@
             <a href="{{ result.url }}" class="search-result-item">
               {% assign featured_image = result.featured_image | default: result.image %}
               {% if featured_image %}
-                <img src="{{ featured_image | image_url: width: 400 }}" alt="{{ result.title | escape }}" class="search-result-image" width="{{ featured_image.width }}" height="{{ featured_image.height }}">
+                <img src="{{ featured_image | image_url: width: 400 }}" alt="{{ result.title | escape }}" class="search-result-image zoom-hover" width="{{ featured_image.width }}" height="{{ featured_image.height }}">
               {% endif %}
               <div class="search-result-content">
                 <h2 class="search-result-title">{{ result.title }}</h2>

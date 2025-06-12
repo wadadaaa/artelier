@@ -23,7 +23,7 @@
                             {{ product.featured_image | image_url: width: 900 }} 900w"
                     sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
                     alt="{{ product.featured_image.alt | escape }}"
-                    class="gallery-image"
+                    class="gallery-image zoom-hover"
                     loading="lazy"
                     width="{{ product.featured_image.width }}"
                     height="{{ product.featured_image.height }}"
@@ -126,7 +126,7 @@
     }
     
     .gallery-item:hover .gallery-image {
-      /* transform: scale(1.05); /* Subtle zoom on hover */
+      transform: scale(1.05); /* Subtle zoom on hover */
     }
     
     .gallery-info {
