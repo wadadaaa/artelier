@@ -10,6 +10,7 @@
 {% if results.filters.size > 0 %}
   <form id="FiltersForm" class="collection-filters">
     {% for filter in results.filters %}
+      {% unless filter.label == 'Availability' %}
       <details class="filter-group" {% if filter.active_values %}open{% endif %}>
         <summary class="filter-summary">{{ filter.label }}</summary>
         <div class="filter-group-display">
@@ -27,24 +28,19 @@
               {% endfor %}
             {% when 'price_range' %}
               <div class="filter-range-slider">
-                <label class="range-control">
-                  <span>{{ 'From' }}</span>
-                  <input type="range" id="price-min" name="{{ filter.min_value.param_name }}"
-                         value="{{ filter.min_value.value | money_without_currency }}"
-                         min="0" max="{{ filter.range_max | money_without_currency }}">
-                  <span class="range-value" data-target="price-min"></span>
-                </label>
-                <label class="range-control">
-                  <span>{{ 'To' }}</span>
-                  <input type="range" id="price-max" name="{{ filter.max_value.param_name }}"
-                         value="{{ filter.max_value.value | money_without_currency }}"
-                         min="0" max="{{ filter.range_max | money_without_currency }}">
-                  <span class="range-value" data-target="price-max"></span>
-                </label>
+                <span class="range-value" data-target="price-min"></span>
+                <input type="range" id="price-min" name="{{ filter.min_value.param_name }}"
+                       value="{{ filter.min_value.value | money_without_currency }}"
+                       min="0" max="{{ filter.range_max | money_without_currency }}">
+                <input type="range" id="price-max" name="{{ filter.max_value.param_name }}"
+                       value="{{ filter.max_value.value | money_without_currency }}"
+                       min="0" max="{{ filter.range_max | money_without_currency }}">
+                <span class="range-value" data-target="price-max"></span>
               </div>
           {% endcase %}
         </div>
       </details>
+      {% endunless %}
     {% endfor %}
     <button type="submit" class="filter-apply">{{ 'Apply' }}</button>
   </form>
@@ -83,13 +79,10 @@
   font-size: 0.9rem;
 }
 .filter-range-slider {
-  width: 100%;
-}
-.range-control {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  width: 100%;
 }
 .filter-range-slider input[type=range] {
   flex: 1;
@@ -114,7 +107,8 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.filter-range-slider input[type="range"]').forEach(function(slider) {
-      var display = slider.parentElement.querySelector('.range-value');
+      var display = document.querySelector('.range-value[data-target="' + slider.id + '"]');
+      if (!display) return;
       var update = function() { display.textContent = slider.value; };
       slider.addEventListener('input', update);
       update();
