@@ -1,5 +1,5 @@
 {% comment %}
-  Enhanced collection filters with modern UI.
+  Collection filters with a price range slider.
   Usage: {% render 'collection-filters', results: collection %}
 {% endcomment %}
 
@@ -11,42 +11,36 @@
   <form id="FiltersForm" class="collection-filters">
     {% for filter in results.filters %}
       {% unless filter.label == 'Availability' %}
-        <details class="filter-group"{% if filter.active_values %} open{% endif %}>
-          <summary class="filter-summary">{{ filter.label }}</summary>
-          <div class="filter-group-display">
-            {% case filter.type %}
-              {% when 'list' %}
+        <div class="filter-group">
+          {% case filter.type %}
+            {% when 'list' %}
+              <span class="filter-label">{{ filter.label }}</span>
+              <div class="filter-options">
                 {% for value in filter.values %}
                   <label class="filter-value">
                     <input type="checkbox"
-                           name="{{ value.param_name }}"
-                           value="{{ value.value }}"
-                           {% if value.active %}checked{% endif %}
-                           {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                      name="{{ value.param_name }}"
+                      value="{{ value.value }}"
+                      {% if value.active %}checked{% endif %}
+                      {% if value.count == 0 and value.active == false %}disabled{% endif %}>
                     <span>{{ value.label }} ({{ value.count }})</span>
                   </label>
                 {% endfor %}
-              {% when 'price_range' %}
-                <div class="filter-range-slider">
-                  <div class="slider-track"></div>
-                  <div id="price-range-highlight" class="slider-range"></div>
-                  <input class="range-input" type="range" id="price-min" name="{{ filter.min_value.param_name }}"
-                         value="{{ filter.min_value.value | money_without_currency }}"
-                         min="0" max="{{ filter.range_max | money_without_currency }}">
-                  <input class="range-input" type="range" id="price-max" name="{{ filter.max_value.param_name }}"
-                         value="{{ filter.max_value.value | money_without_currency }}"
-                         min="0" max="{{ filter.range_max | money_without_currency }}">
-                  <div class="range-values">
-                    $<span id="price-min-display" class="range-value"></span>
-                    - $<span id="price-max-display" class="range-value"></span>
-                  </div>
+              </div>
+            {% when 'price_range' %}
+              <span class="filter-label">{{ filter.label }}</span>
+              <div class="price-slider">
+                <input class="range-input" type="range" id="price-min" name="{{ filter.min_value.param_name }}" min="0" max="{{ filter.range_max }}" value="{{ filter.min_value.value | default: 0 }}">
+                <input class="range-input" type="range" id="price-max" name="{{ filter.max_value.param_name }}" min="0" max="{{ filter.range_max }}" value="{{ filter.max_value.value | default: filter.range_max }}">
+                <div class="price-values">
+                  $<span id="min-display"></span> - $<span id="max-display"></span>
                 </div>
-            {% endcase %}
-          </div>
-        </details>
+              </div>
+          {% endcase %}
+        </div>
       {% endunless %}
     {% endfor %}
-    <button type="submit" class="filter-apply">Apply</button>
+    <button type="submit" class="filter-apply">{{ 'products.facets.apply' | t }}</button>
   </form>
 {% endif %}
 
@@ -55,88 +49,55 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  margin-bottom: 1rem;
   padding: 1rem;
-  margin-bottom: 1.5rem;
   background: var(--color-card-bg, #f9f9f9);
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .filter-group {
-  flex: 1 1 220px;
-  background: #fff;
-  border: 1px solid var(--color-border, #ddd);
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
+  flex: 1 1 200px;
 }
-.filter-summary {
+.filter-label {
   font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
+  display: block;
 }
-.filter-group-display {
+.filter-options {
   display: grid;
   gap: 0.5rem;
 }
 .filter-value {
   display: flex;
   align-items: center;
+  gap: 0.25rem;
+}
+.price-slider {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
 }
-.filter-value input {
-  accent-color: var(--color-accent, #1e1e1e);
-}
-.filter-range-slider {
-  position: relative;
-  width: 100%;
-  padding: 0.5rem 0 1.5rem;
-}
-.slider-track,
-.slider-range {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0.75rem;
-  height: 4px;
-  border-radius: 2px;
-}
-.slider-track { background: #ddd; }
-.slider-range { background: var(--color-accent, #1e1e1e); }
 .range-input {
   -webkit-appearance: none;
-  position: absolute;
-  left: 0;
-  top: 0;
   width: 100%;
   height: 4px;
-  background: none;
-  pointer-events: none;
+  background: #ddd;
+  border-radius: 2px;
 }
 .range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
-  pointer-events: auto;
   width: 16px;
   height: 16px;
-  border-radius: 50%;
   background: var(--color-accent, #1e1e1e);
+  border-radius: 50%;
   cursor: pointer;
 }
-.range-input::-moz-range-thumb {
-  pointer-events: auto;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--color-accent, #1e1e1e);
-  cursor: pointer;
-}
-.range-values {
-  margin-top: 1rem;
-  text-align: center;
-  font-size: 0.85rem;
+.price-values {
+  white-space: nowrap;
+  font-size: 0.875rem;
 }
 .filter-apply {
-  align-self: flex-end;
-  padding: 0.6rem 1.2rem;
+  margin-left: auto;
+  padding: 0.5rem 1rem;
   background: var(--color-accent, #1e1e1e);
   color: #fff;
   border: none;
@@ -146,45 +107,32 @@
 {% endstylesheet %}
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  var minSlider = document.getElementById('price-min');
-  var maxSlider = document.getElementById('price-max');
-  var minDisplay = document.getElementById('price-min-display');
-  var maxDisplay = document.getElementById('price-max-display');
-  var highlight = document.getElementById('price-range-highlight');
+  document.addEventListener('DOMContentLoaded', function () {
+    var min = document.getElementById('price-min');
+    var max = document.getElementById('price-max');
+    var minDisplay = document.getElementById('min-display');
+    var maxDisplay = document.getElementById('max-display');
 
-  function update() {
-    var minVal = parseInt(minSlider.value);
-    var maxVal = parseInt(maxSlider.value);
-    var rangeMax = parseInt(minSlider.max);
-
-    if (minDisplay) minDisplay.textContent = minVal;
-    if (maxDisplay) maxDisplay.textContent = maxVal;
-
-    if (highlight) {
-      var minPercent = (minVal / rangeMax) * 100;
-      var maxPercent = (maxVal / rangeMax) * 100;
-      highlight.style.left = minPercent + '%';
-      highlight.style.width = (maxPercent - minPercent) + '%';
+    function update(event) {
+      var minVal = parseInt(min.value);
+      var maxVal = parseInt(max.value);
+      if (minVal > maxVal) {
+        if (event && event.target === min) {
+          max.value = minVal;
+          maxVal = minVal;
+        } else {
+          min.value = maxVal;
+          minVal = maxVal;
+        }
+      }
+      if (minDisplay) minDisplay.textContent = minVal;
+      if (maxDisplay) maxDisplay.textContent = maxVal;
     }
-  }
 
-  if (minSlider && maxSlider) {
-    minSlider.addEventListener('input', function () {
-      if (parseInt(minSlider.value) > parseInt(maxSlider.value)) {
-        minSlider.value = maxSlider.value;
-      }
+    if (min && max) {
+      min.addEventListener('input', update);
+      max.addEventListener('input', update);
       update();
-    });
-
-    maxSlider.addEventListener('input', function () {
-      if (parseInt(maxSlider.value) < parseInt(minSlider.value)) {
-        maxSlider.value = minSlider.value;
-      }
-      update();
-    });
-
-    update();
-  }
-});
+    }
+  });
 </script>
