@@ -26,14 +26,20 @@
                 </label>
               {% endfor %}
             {% when 'price_range' %}
-              <div class="filter-range">
+              <div class="filter-range-slider">
                 <label>
                   {{ 'From' }}
-                  <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency }}" min="0">
+                  <input type="range" id="price-min" name="{{ filter.min_value.param_name }}"
+                         value="{{ filter.min_value.value | money_without_currency }}"
+                         min="0" max="{{ filter.range_max | money_without_currency }}">
+                  <span class="range-value" data-target="price-min"></span>
                 </label>
                 <label>
                   {{ 'To' }}
-                  <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency }}" min="0">
+                  <input type="range" id="price-max" name="{{ filter.max_value.param_name }}"
+                         value="{{ filter.max_value.value | money_without_currency }}"
+                         min="0" max="{{ filter.range_max | money_without_currency }}">
+                  <span class="range-value" data-target="price-max"></span>
                 </label>
               </div>
           {% endcase %}
@@ -65,10 +71,25 @@
   display: block;
   margin-bottom: 0.25rem;
 }
-.filter-range label {
+.filter-range-slider label {
   display: block;
+  margin-bottom: 0.5rem;
+}
+.filter-range-slider input[type=range] {
+  width: 100%;
 }
 .filter-apply {
   margin-top: 0.5rem;
 }
 {% endstylesheet %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.filter-range-slider input[type="range"]').forEach(function(slider) {
+      var display = slider.parentElement.querySelector('.range-value');
+      var update = function() { display.textContent = slider.value; };
+      slider.addEventListener('input', update);
+      update();
+    });
+  });
+</script>
