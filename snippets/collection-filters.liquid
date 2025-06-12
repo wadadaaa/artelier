@@ -1,5 +1,5 @@
 {% comment %}
-  Simple collection filters snippet.
+  Enhanced collection filters with modern UI.
   Usage: {% render 'collection-filters', results: collection %}
 {% endcomment %}
 
@@ -11,38 +11,42 @@
   <form id="FiltersForm" class="collection-filters">
     {% for filter in results.filters %}
       {% unless filter.label == 'Availability' %}
-      <details class="filter-group" {% if filter.active_values %}open{% endif %}>
-        <summary class="filter-summary">{{ filter.label }}</summary>
-        <div class="filter-group-display">
-          {% case filter.type %}
-            {% when 'list' %}
-              {% for value in filter.values %}
-                <label class="filter-value">
-                  <input type="checkbox"
-                         name="{{ value.param_name }}"
-                         value="{{ value.value }}"
-                         {% if value.active %}checked{% endif %}
-                         {% if value.count == 0 and value.active == false %}disabled{% endif %}>
-                  <span>{{ value.label }} ({{ value.count }})</span>
-                </label>
-              {% endfor %}
-            {% when 'price_range' %}
-              <div class="filter-range-slider">
-                <span class="range-value" data-target="price-min"></span>
-                <input type="range" id="price-min" name="{{ filter.min_value.param_name }}"
-                       value="{{ filter.min_value.value | money_without_currency }}"
-                       min="0" max="{{ filter.range_max | money_without_currency }}">
-                <input type="range" id="price-max" name="{{ filter.max_value.param_name }}"
-                       value="{{ filter.max_value.value | money_without_currency }}"
-                       min="0" max="{{ filter.range_max | money_without_currency }}">
-                <span class="range-value" data-target="price-max"></span>
-              </div>
-          {% endcase %}
-        </div>
-      </details>
+        <details class="filter-group"{% if filter.active_values %} open{% endif %}>
+          <summary class="filter-summary">{{ filter.label }}</summary>
+          <div class="filter-group-display">
+            {% case filter.type %}
+              {% when 'list' %}
+                {% for value in filter.values %}
+                  <label class="filter-value">
+                    <input type="checkbox"
+                           name="{{ value.param_name }}"
+                           value="{{ value.value }}"
+                           {% if value.active %}checked{% endif %}
+                           {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                    <span>{{ value.label }} ({{ value.count }})</span>
+                  </label>
+                {% endfor %}
+              {% when 'price_range' %}
+                <div class="filter-range-slider">
+                  <label class="range-label">From $
+                    <span id="price-min-display" class="range-value"></span>
+                  </label>
+                  <input type="range" id="price-min" name="{{ filter.min_value.param_name }}"
+                         value="{{ filter.min_value.value | money_without_currency }}"
+                         min="0" max="{{ filter.range_max | money_without_currency }}">
+                  <input type="range" id="price-max" name="{{ filter.max_value.param_name }}"
+                         value="{{ filter.max_value.value | money_without_currency }}"
+                         min="0" max="{{ filter.range_max | money_without_currency }}">
+                  <label class="range-label">To $
+                    <span id="price-max-display" class="range-value"></span>
+                  </label>
+                </div>
+            {% endcase %}
+          </div>
+        </details>
       {% endunless %}
     {% endfor %}
-    <button type="submit" class="filter-apply">{{ 'Apply' }}</button>
+    <button type="submit" class="filter-apply">Apply</button>
   </form>
 {% endif %}
 
@@ -51,19 +55,18 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 2rem;
   padding: 1rem;
+  margin-bottom: 1.5rem;
   background: var(--color-card-bg, #f9f9f9);
-  border: 1px solid var(--color-border, #ddd);
-  border-radius: var(--border-radius-lg, 8px);
-  box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.05));
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .filter-group {
   flex: 1 1 220px;
   background: #fff;
   border: 1px solid var(--color-border, #ddd);
-  border-radius: var(--border-radius, 4px);
-  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
 }
 .filter-summary {
   font-weight: 600;
@@ -71,47 +74,91 @@
   margin-bottom: 0.5rem;
 }
 .filter-group-display {
-  margin-left: 0;
+  display: grid;
+  gap: 0.5rem;
 }
 .filter-value {
-  display: block;
-  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.9rem;
+}
+.filter-value input {
+  accent-color: var(--color-accent, #1e1e1e);
 }
 .filter-range-slider {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  width: 100%;
 }
 .filter-range-slider input[type=range] {
-  flex: 1;
-  accent-color: var(--color-accent, #1e1e1e);
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+}
+.filter-range-slider input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-accent, #1e1e1e);
+  cursor: pointer;
+}
+.filter-range-slider input[type=range]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-accent, #1e1e1e);
+  cursor: pointer;
+}
+.range-label {
+  font-size: 0.85rem;
+  white-space: nowrap;
 }
 .range-value {
-  font-size: 0.85rem;
-  min-width: 2.5rem;
-  text-align: center;
+  font-weight: 500;
 }
 .filter-apply {
   align-self: flex-end;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   background: var(--color-accent, #1e1e1e);
   color: #fff;
   border: none;
-  border-radius: var(--border-radius, 4px);
+  border-radius: 4px;
   cursor: pointer;
 }
 {% endstylesheet %}
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.filter-range-slider input[type="range"]').forEach(function(slider) {
-      var display = document.querySelector('.range-value[data-target="' + slider.id + '"]');
-      if (!display) return;
-      var update = function() { display.textContent = slider.value; };
-      slider.addEventListener('input', update);
+document.addEventListener('DOMContentLoaded', function () {
+  var minSlider = document.getElementById('price-min');
+  var maxSlider = document.getElementById('price-max');
+  var minDisplay = document.getElementById('price-min-display');
+  var maxDisplay = document.getElementById('price-max-display');
+
+  function update() {
+    if (minDisplay) minDisplay.textContent = minSlider.value;
+    if (maxDisplay) maxDisplay.textContent = maxSlider.value;
+  }
+
+  if (minSlider && maxSlider) {
+    minSlider.addEventListener('input', function () {
+      if (parseInt(minSlider.value) > parseInt(maxSlider.value)) {
+        maxSlider.value = minSlider.value;
+      }
       update();
     });
-  });
+
+    maxSlider.addEventListener('input', function () {
+      if (parseInt(maxSlider.value) < parseInt(minSlider.value)) {
+        minSlider.value = maxSlider.value;
+      }
+      update();
+    });
+
+    update();
+  }
+});
 </script>
