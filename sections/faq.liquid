@@ -1,0 +1,67 @@
+{% comment %}
+  FAQ Section
+  Inspired by leahgardner.art FAQ page
+  File: sections/faq.liquid
+{% endcomment %}
+
+<section class="faq-section">
+  <h1>Frequently Asked Questions</h1>
+
+  <details class="faq-item" open>
+    <summary>Do you ship worldwide?</summary>
+    <p>Yes. Shipping costs are calculated at checkout based on your location.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Can I return a painting if it doesn't work for me?</summary>
+    <p>If you're not happy with your purchase, contact us within 7 days of delivery and we'll arrange a return or exchange.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Do you take custom commissions?</summary>
+    <p>Absolutely! Send a message through the contact page and let's chat about your ideas.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>How long does shipping take?</summary>
+    <p>Orders typically ship within 3-5 business days. You'll receive a tracking number once your package is on its way.</p>
+  </details>
+</section>
+
+<style>
+.faq-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+.faq-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.faq-item {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1rem;
+}
+.faq-item summary {
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.faq-item p {
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+}
+</style>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [],
+  "presets": [
+    {
+      "name": "FAQ"
+    }
+  ]
+}
+{% endschema %}
