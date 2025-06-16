@@ -17,7 +17,8 @@
           "settings": {
             "title": "originals",
             "link": "/collections/originals",
-            "image": "shopify://shop_images/Sky_Poetry_Painting.jpg"
+            "image": "shopify://shop_images/Sky_Poetry_Painting.jpg",
+            "subcategories": "Figurative Art\nLandscapes\nStill Life\nUrban Art & Cities\nAnimal Art\nSurrealist Art\nAbstract Art"
           }
         },
         "mixed-media": {
@@ -28,19 +29,11 @@
             "image": "shopify://shop_images/SavannahArtwork.jpg"
           }
         },
-        "exhibitions": {
+        "prints": {
           "type": "category_link",
           "settings": {
-            "title": "exhibitions",
-            "link": "/collections/exhibitions",
-            "image": "shopify://shop_images/THE_LAST_SUPPER_OF_THE_JOKER-1.jpg"
-          }
-        },
-        "faq": {
-          "type": "category_link",
-          "settings": {
-            "title": "faq",
-            "link": "/pages/faq",
+            "title": "prints",
+            "link": "/collections/prints",
             "image": "shopify://shop_images/Sun_on_the_Skillet_Painting.jpg"
           }
         }
@@ -48,8 +41,7 @@
       "block_order": [
         "originals",
         "mixed-media",
-        "exhibitions",
-        "faq"
+        "prints"
       ],
       "settings": {}
     },

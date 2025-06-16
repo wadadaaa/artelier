@@ -19,6 +19,14 @@
       "hero-categories": {
         "type": "hero-with-categories",
         "blocks": {
+          "originals": {
+            "type": "category_link",
+            "settings": {
+              "title": "originals",
+              "link": "/collections/originals",
+              "subcategories": "Figurative Art\nLandscapes\nStill Life\nUrban Art & Cities\nAnimal Art\nSurrealist Art\nAbstract Art"
+            }
+          },
           "mixed-media": {
             "type": "category_link",
             "settings": {
@@ -26,55 +34,18 @@
               "link": "/collections/mixed-media"
             }
           },
-          "originals": {
+          "prints": {
             "type": "category_link",
             "settings": {
-              "title": "originals",
-              "link": "/collections/originals"
-            }
-          },
-          "exhibitions": {
-            "type": "category_link",
-            "settings": {
-              "title": "exhibitions",
-              "link": "/collections/exhibitions"
-            }
-          },
-          "wallpapers": {
-            "type": "category_link",
-            "settings": {
-              "title": "wallpapers",
-              "link": "/collections/wallpapers"
-            }
-          },
-          "merch": {
-            "type": "category_link",
-            "settings": {
-              "title": "merch",
-              "link": "/collections/merch"
-            }
-          },
-          "about": {
-            "type": "category_link",
-            "settings": {
-              "title": "about",
-              "link": "/pages/about"
-            }
-          },
-          "faq": {
-            "type": "category_link",
-            "settings": {
-              "title": "faq",
-              "link": "/pages/faq"
+              "title": "prints",
+              "link": "/collections/prints"
             }
           }
         },
         "block_order": [
           "originals",
           "mixed-media",
-          "exhibitions",
-          "about",
-          "faq"
+          "prints"
         ],
         "settings": {
           "hero_image": "shopify://shop_images/your-hero-image.jpg"
