@@ -65,9 +65,9 @@
       z-index: 2;
       box-sizing: border-box;
       align-items: center;
-      border-right: 5px solid #1e1e1e;
-      border-top: 5px solid #1e1e1e;
-      border-bottom: 5px solid #1e1e1e;
+      border-right: none; /* Removed vertical divider */
+      border-top: none;
+      border-bottom: none;
     }
     .hero-side-image {
       flex: 1 1 60%; /* Adjust ratio as needed */
@@ -98,12 +98,16 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem; /* Spacing between links */
+      gap: 0; /* No spacing between links now handled by borders */
       align-items: center;
+      border-top: 1px solid #1e1e1e; /* Top border for the list */
+      border-left: 1px solid #1e1e1e; /* Left border for the list */
+      border-right: 1px solid #1e1e1e; /* Right border for the list */
     }
     .category-item-hero {
       width: 100%;
       box-sizing: border-box;
+      border-bottom: 1px solid #1e1e1e; /* Bottom border for each item */
     }
     .category-link-hero {
       display: block;
@@ -111,7 +115,7 @@
       font-weight: 600; /* Bold like screenshot */
       color: #1e1e1e; /* Orange color from screenshot */
       text-decoration: none;
-      padding: 0.1em 0; /* Minimal vertical padding */
+      padding: 0.5em 1em; /* Adjusted padding for links within borders */
       transition: all 0.2s ease;
       text-align: left;
       line-height: 1.1;
@@ -139,6 +143,10 @@
         width: 100%;
         min-height: 50vh; /* Ensure it takes some space */
         max-height: 50vh; /* Limit image height */
+      }
+      .category-list-hero {
+        border-left: none;
+        border-right: none;
       }
       .category-link-hero {
         font-size: clamp(1.8rem, 8vw, 2.5rem); /* Adjust for mobile */
