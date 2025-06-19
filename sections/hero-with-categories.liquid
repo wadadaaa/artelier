@@ -60,7 +60,7 @@
       flex-direction: column;
       justify-content: flex-start; /* Vertically center links */
       padding: 2rem 3rem; /* Ample padding */
-      background-color: var(--color-background, #ffffff);
+      background-color: var(--color-background, #E6BDBE);
       position: relative;
       z-index: 2;
       box-sizing: border-box;
@@ -112,8 +112,12 @@
     .category-link-hero {
       display: block;
       font-size: clamp(2rem, 6vw, 4.75rem); /* Responsive font size */
-      font-weight: 600; /* Bold like screenshot */
-      color: #1e1e1e; /* Orange color from screenshot */
+      font-family: var(--font-secondary--family, ppright, sans-serif);
+      font-weight: 400;
+      -webkit-font-feature-settings: "onum" 0, "case" 1;
+      font-feature-settings: "onum" 0, "case" 1;
+      text-transform: uppercase;
+      color: var(--color-foreground, #000000);
       text-decoration: none;
       padding: 0.5em 1em; /* Adjusted padding for links within borders */
       transition: all 0.2s ease;
