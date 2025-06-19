@@ -93,9 +93,7 @@
 .collection-products-art {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border-top: 1px solid #1e1e1e;
-  border-left: 1px solid #1e1e1e;
+  gap: 10px;
 }
 .collection-product-art {
   background: #fff;
@@ -107,8 +105,8 @@
   position: relative;
   transition: box-shadow 0.2s;
   break-inside: avoid;
-  border-right: 1px solid #1e1e1e;
-  border-bottom: 1px solid #1e1e1e;
+  border-right: none;
+  border-bottom: none;
 }
 
 .collection-product-link-art {
@@ -128,6 +126,7 @@
   justify-content: center;
   align-items: center;
   background: #f8f8f8;
+  border-radius: 8px;
   margin-bottom: 0;
 }
 .collection-product-image-art {
@@ -206,6 +205,7 @@ body, h1, h2, h3, h4, h5, h6 {
 .gallery-image-wrapper {
   overflow: hidden;
   /* Можно добавить фиксированную высоту/ширину, если нужно */
+  border-radius: 8px;
 }
 
 .gallery-image {
