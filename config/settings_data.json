@@ -11,6 +11,8 @@
   "current": {
     "type_primary_font": "work_sans_n4",
     "type_secondary_font": "playfair_display_n4",
+    "background_color": "#E6BDBE",
+    "foreground_color": "#000000",
     "order": [
       "hero-categories",
       "gallery"

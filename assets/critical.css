@@ -24,8 +24,8 @@ body {
   flex-direction: column;
   min-height: 100vh; /* Changed from svh for broader compatibility */
   font-family: var(--font-primary--family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
-  background-color: var(--color-background, #ffffff);
-  color: var(--color-foreground, #2c2c2c);
+  background-color: var(--color-background, #E6BDBE);
+  color: var(--color-foreground, #000000);
   line-height: 1.6; /* Specific body line-height */
 }
 
@@ -67,8 +67,8 @@ p:last-child {
 
 /* Art Theme Specific Styles */
 :root {
-  --color-background: #ffffff;
-  --color-foreground: #222222; /* Slightly darker foreground */
+  --color-background: #E6BDBE;
+  --color-foreground: #000000; /* Slightly darker foreground */
   --color-accent: #1e1e1e; /* Main accent color changed to dark gray */
   --color-accent-secondary: #fce5d8; /* Light pink for title like leahgardner.art */
   --color-muted: #555555; /* Darker muted color */
