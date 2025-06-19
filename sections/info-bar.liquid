@@ -33,10 +33,10 @@
   <div class="info-bar-col info-bar-right">
     <div class="info-bar-actions">
       <a href="/search" class="info-bar-action-link info-bar-search" aria-label="Search">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e1e1e" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-foreground, #000000)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </a>
       <a href="{{ routes.cart_url }}" class="info-bar-action-link info-bar-cart" id="cart-icon-bubble">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e1e1e" stroke-width="1.5">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-foreground, #000000)" stroke-width="1.5">
           <circle cx="8" cy="21" r="1"/>
           <circle cx="19" cy="21" r="1"/>
           <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L23 6H6"/>
@@ -57,10 +57,16 @@
   align-items: center; /* Align items to center vertically */
   width: 100%;
   padding: 1.5rem 2rem;
-  font-family: var(--main-font-stack);
-  font-size: 1.1rem; /* Smaller base font size for overall text */
-  background: #fff;
-  color: #111;
+  font-family: var(--font-primary--family, martianmono, sans-serif);
+  font-size: 12px;
+  line-height: 20px;
+  -webkit-font-kerning: normal;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: "onum" 1;
+  font-feature-settings: "onum" 1;
+  background: var(--color-background, #E6BDBE);
+  color: var(--color-foreground, #000000);
   box-sizing: border-box;
   gap: 2rem;
 }
@@ -89,7 +95,7 @@
 .info-bar-title {
   font-size: 2rem; /* Larger font size for main title */
   font-weight: 400;
-  color: #1e1e1e;
+  color: var(--color-foreground, #000000);
   text-decoration: none;
   letter-spacing: 0.04em;
   transition: opacity 0.3s ease;
@@ -106,7 +112,7 @@
   gap: 1.5rem;
 }
 .info-bar-action-link {
-  color: #1e1e1e; /* Darker color for icons */
+  color: var(--color-foreground, #000000); /* Match site text color */
   text-decoration: none;
   padding: 0.5rem;
   transition: all 0.3s ease;
