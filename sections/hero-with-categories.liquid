@@ -15,14 +15,6 @@
                 <a href="{{ block.settings.link }}" class="category-link-hero">
                   {{ block.settings.title | downcase }}
                 </a>
-                {% assign subs = block.settings.subcategories | newline_to_br | split: '<br />' %}
-                {% if subs.size > 0 and subs[0] != '' %}
-                  <ul class="subcategory-list-hero">
-                    {% for sub in subs %}
-                      <li class="subcategory-item-hero">{{ sub }}</li>
-                    {% endfor %}
-                  </ul>
-                {% endif %}
               </li>
             {% endfor %}
           </ul>
@@ -116,17 +108,6 @@
       width: 100%;
       box-sizing: border-box;
       border-bottom: 1px solid #1e1e1e; /* Bottom border for each item */
-    }
-    .subcategory-list-hero {
-      list-style: none;
-      margin: 0;
-      padding: 0 0 0 1.5rem;
-    }
-    .subcategory-item-hero {
-      font-size: clamp(1rem, 3vw, 1.5rem);
-      font-weight: 400;
-      line-height: 1.2;
-      padding: 0.25em 0;
     }
     .category-link-hero {
       display: block;
