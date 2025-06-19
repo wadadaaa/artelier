@@ -23,10 +23,17 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Changed from svh for broader compatibility */
-  font-family: var(--font-primary--family, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
-  background-color: var(--color-background, #ffffff);
-  color: var(--color-foreground, #2c2c2c);
-  line-height: 1.6; /* Specific body line-height */
+  font-family: var(--font-primary--family, martianmono, sans-serif);
+  font-size: 12px;
+  line-height: 20px;
+  -webkit-font-kerning: normal;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: "onum" 1;
+  font-feature-settings: "onum" 1;
+  background-color: var(--color-background, #E6BDBE);
+  color: var(--black);
+  padding: 0;
 }
 
 /* Scroll lock for modals/dialogs */
@@ -67,16 +74,17 @@ p:last-child {
 
 /* Art Theme Specific Styles */
 :root {
-  --color-background: #ffffff;
-  --color-foreground: #222222; /* Slightly darker foreground */
+  --color-background: #E6BDBE;
+  --color-foreground: #000000; /* Slightly darker foreground */
   --color-accent: #1e1e1e; /* Main accent color changed to dark gray */
   --color-accent-secondary: #fce5d8; /* Light pink for title like leahgardner.art */
   --color-muted: #555555; /* Darker muted color */
   --color-border: #dddddd; /* Lighter border */
   --color-card-bg: #f9f9f9;
   
-  --font-primary--family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Common sans-serif */
-  --font-secondary--family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Using same for simplicity, can be changed */
+  --font-primary--family: 'martianmono', sans-serif;
+  --font-secondary--family: 'ppright', sans-serif;
+  --black: #000000;
   --main-font-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   
   --page-width: 1400px; /* Max page width */
@@ -110,18 +118,24 @@ p:last-child {
 
 /* Typography Scale */
 h1, .h1 {
-  font-size: clamp(2.5rem, 5vw, 3.75rem); /* Matches hero links */
-  font-weight: 600;
-  font-family: var(--font-secondary--family, var(--font-primary--family));
-  line-height: 1.1;
+  font-family: var(--font-secondary--family, ppright, sans-serif);
+  font-weight: 400;
+  -webkit-font-feature-settings: "onum" 0, "case" 1;
+  font-feature-settings: "onum" 0, "case" 1;
+  text-transform: uppercase;
+  font-size: 55px;
+  line-height: 48px;
   margin-bottom: 1.5rem;
-  color: var(--color-accent); /* Default h1 to accent color */
+  color: var(--color-accent);
 }
 
 h2, .h2 {
+  font-family: var(--font-secondary--family, ppright, sans-serif);
+  font-weight: 400;
+  -webkit-font-feature-settings: "onum" 0, "case" 1;
+  font-feature-settings: "onum" 0, "case" 1;
+  text-transform: uppercase;
   font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 500;
-  font-family: var(--font-secondary--family, var(--font-primary--family));
   line-height: 1.2;
   margin-bottom: 1rem;
 }
@@ -132,6 +146,18 @@ h3, .h3 {
   font-family: var(--font-secondary--family, var(--font-primary--family));
   line-height: 1.3;
   margin-bottom: 0.75rem;
+}
+
+a {
+  font-family: var(--font-primary--family, martianmono, sans-serif);
+  font-size: 12px;
+  line-height: 20px;
+  -webkit-font-kerning: normal;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-feature-settings: "onum" 1;
+  font-feature-settings: "onum" 1;
+  color: var(--black);
 }
 
 /* Section Layout Utilities */
